@@ -15,7 +15,7 @@ class EmptyFieldsCheck: NSObject {
         var isEmptyFields = false
         for field in fieldArray {
             if !isEmptyFields {
-                isEmptyFields = field?.text!.isEmpty ?? true ? true : false
+                isEmptyFields = field?.text?.isEmpty ?? true ? true : false
             }
         }
         return isEmptyFields
