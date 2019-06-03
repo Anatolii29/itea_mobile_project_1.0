@@ -53,7 +53,7 @@ class SignInViewController: UIViewController, UITextFieldDelegate {
         emailtextField.delegate = self
         telephoneTextField.delegate = self
         
-        self.hideKeyboardWhenTappedAround()
+        self.hideKeyboardWhenTapped()
         
     }
     

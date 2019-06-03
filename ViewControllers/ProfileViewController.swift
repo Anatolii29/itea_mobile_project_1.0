@@ -61,7 +61,7 @@ class ProfileViewController: UIViewController, UITextFieldDelegate {
         userEmailTextField.delegate = self
         userTelephoneTextField.delegate = self
         
-        self.hideKeyboardWhenTappedAround()
+        self.hideKeyboardWhenTapped()
         
     }
     

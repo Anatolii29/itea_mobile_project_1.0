@@ -26,7 +26,7 @@ class LoginScreenViewController: UIViewController, UITextFieldDelegate {
         self.view.backgroundColor = DesignManager().getMainBackgroundColor()
         usernameTextField.delegate = self
         passwordTextField.delegate = self
-        self.hideKeyboardWhenTappedAround()
+        self.hideKeyboardWhenTapped()
         
         allProjectDataManager()
         
@@ -128,7 +128,7 @@ extension LoginScreenViewController: ProfileViewControllerDelegate {
 
 extension UIViewController {
     
-    func hideKeyboardWhenTappedAround() {
+    func hideKeyboardWhenTapped() {
         
         let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
         tap.cancelsTouchesInView = false
