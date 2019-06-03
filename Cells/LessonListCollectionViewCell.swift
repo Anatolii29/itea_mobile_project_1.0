@@ -10,16 +10,13 @@ import UIKit
 
 class LessonListCollectionViewCell: UICollectionViewCell {
     
-//    var delegate: LessonListViewController?
-    
     @IBOutlet weak var lessonImage: UIImageView!
     @IBOutlet weak var lessonLabel: UILabel!
     
-    func update(currentCourse: Course, index: Int) {
+    func update(currentCourse: Course) {
         
         lessonImage.image = UIImage(named: currentCourse.photo)
         lessonLabel.text = currentCourse.name
-        self.backgroundColor = coursesBackgroundColors[index]
         lessonLabel.lineBreakMode = .byWordWrapping
         lessonLabel.numberOfLines = 0
         

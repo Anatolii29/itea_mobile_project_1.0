@@ -1,62 +1,18 @@
 //
-//  LoginScreenViewController.swift
+//  GlobalManager.swift
 //  itea_project
 //
-//  Created by Anatolii on 5/20/19.
+//  Created by Anatolii on 6/2/19.
 //  Copyright © 2019 Anatolii. All rights reserved.
 //
 
 import UIKit
 
-var coursesBackgroundColors = [0: UIColor(hexString: "#757575"),
-                               1: UIColor(hexString: "#757575"),
-                               2: UIColor(hexString: "#757575"),
-                               3: UIColor(hexString: "#757575"),
-                               4: UIColor(hexString: "#757575")]
-
-enum AlertType: String {
+class GlobalManager {
     
-    case isEmptyFields = "Login or password field is empty. Please fill all empty fileds"
-    case wrongPass = "Wrong password!"
-    case userNotFound =  "User not found! Do you want to create new user?"
-    case userSaved =  "User saved!"
-    case policyUnmarked =  "Please mark the policy information"
-    case telephoneIsEmpty =  "Please fill the telephone number"
-    case courseIsSubscribed =  "You have successfuly subscribed on course"
-    case courseIsCompleted =  "You have successfuly comleted the course. Congratulations!"
-    
-}
-
-class LoginScreenViewController: UIViewController {
-    
-    @IBOutlet weak var usernameTextField: UITextField!
-    @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var loginButton: UIButton!
-    
-    var userArray: [User] = []
-    var coursesArray: [Course] = []
-    var currentUser: User?
-    
-    override func viewDidLoad() {
+    func userManager() -> [User] {
         
-        super.viewDidLoad()
-        
-        self.navigationController?.isNavigationBarHidden = true
-        self.view.backgroundColor = UIColor(red: 205/255, green: 21/255, blue: 43/255, alpha: 1)
-        
-        allProjectDataManager()
-        
-    }
-    
-    func allProjectDataManager() {
-        
-        fillUser()
-        fillCourses()
-        
-    }
-    
-    func fillUser() {
-        
+        var userArray: [User] = []
         let user1 = User(name: "default",
                          password: "default",
                          photo: "default",
@@ -87,10 +43,49 @@ class LoginScreenViewController: UIViewController {
         userArray.append(user1)
         userArray.append(user2)
         userArray.append(user3)
-        
+        return userArray
     }
     
-    func fillCourses() {
+    func coursesManager() -> [Course] {
+        
+        
+        
+        let course1 = Course(name: "Testing",
+                             photo: "qa-350",
+                             time: .dayTime,
+                             type: .design,
+                             age: .adult)
+        let course2 = Course(name: "Frontend dev",
+                             photo: "frontend-350",
+                             time: .eveningTime,
+                             type: .design,
+                             age: .adult)
+        let course3 = Course(name: "JS development",
+                             photo: "roadmap_javascript",
+                             time: .eveningTime,
+                             type: .frontend,
+                             age: .adult)
+        let course4 = Course(name: "Web-design",
+                             photo: "product-350",
+                             time: .online,
+                             type: .mobile,
+                             age: .kids)
+        let course5 = Course(name: "Web-design",
+                             photo: "product-350",
+                             time: .dayTime,
+                             type: .mobile,
+                             age: .adult)
+        var coursesArray: [Course] = []
+        coursesArray.append(course1)
+        coursesArray.append(course2)
+        coursesArray.append(course3)
+        coursesArray.append(course4)
+        coursesArray.append(course5)
+        subCourseManager(coursesArray: coursesArray)
+        return coursesArray
+    }
+    
+    func subCourseManager(coursesArray: [Course]) {
         
         let subCourse1 = SubCourse(name: "Testing Base",
                                    about: """
@@ -545,7 +540,7 @@ CSS
 - Работа с роутами
 - Введение в Redux / Mobx
 """)
-        let subCourse8 = SubCourse(name: "JavaScript professional",
+        let subCourse8 = SubCourse(name: "JavaScript profi",
                                    about: """
 В ходе изучения этого курса вы познакомитесь с использованием наиболее популярных шаблонов проектирования. В частности будут рассмотрены MVC, MVP, MVVM и их реализация. Также вы получите понимание функционирования Webpack, которое так необходимо для работы с библиотеками и фреймворками. Уделим внимание наиболее актуальным концепциям разработки приложений, антипаттернам и веб-компонентам.
 
@@ -653,15 +648,15 @@ CSS
 - Дженерик ограничения
 """)
         let subCourse10 = SubCourse(name: "React native basic",
-                                   about: """
+                                    about: """
 Программа базового уровня позволит познакомиться с тонкостями использования фреймворка React Native. React Native предлагает ряд интегрированных компонентов, что позволяет разработчикам быстро и эффективно выполнять основные задачи.
 """,
-                                   afterCourse: """
+                                    afterCourse: """
 - Разрабатывать простые приложения с использованием основных функций фреймворка React Native
 - Работать с удаленными данными и визуальными компонентами
 """,
-                                   photo: "roadmap_javascript",
-                                   program: """
+                                    photo: "roadmap_javascript",
+                                    program: """
 Введение
 - О курсе
 - Обзор технологии React
@@ -839,7 +834,7 @@ Usability
 - Подбор шрифтов и шрифтовые пары
 - Инструменты подбора Web-шрифтов
 """)
-        let subCourse14 = SubCourse(name: "Basic design and graphic redactors",
+        let subCourse14 = SubCourse(name: "Graphic redactors",
                                     about: """
 Хотите научиться работать с векторными и растровыми изображениями, ретушировать фотографии, создавать Gif-анимации и подготавливать дизайн-макеты к верстке вебсайтов? Тогда этот курс именно для Вас!
 """,
@@ -889,136 +884,12 @@ Usability
         let subCourseArray4 = [subCourse11, subCourse12]
         let subCourseArray5 = [subCourse13, subCourse14]
         
-        let course1 = Course(name: "Testing",
-                             photo: "qa-350",
-                             time: .dayTime,
-                             type: .design,
-                             age: .adult,
-                             subCourseArray: subCourseArray1)
-        let course2 = Course(name: "Frontend development",
-                             photo: "frontend-350",
-                             time: .eveningTime,
-                             type: .design,
-                             age: .adult,
-                             subCourseArray: subCourseArray2)
-        let course3 = Course(name: "JS development",
-                             photo: "roadmap_javascript",
-                             time: .eveningTime,
-                             type: .frontend,
-                             age: .adult,
-                             subCourseArray: subCourseArray3)
-        let course4 = Course(name: "Web-design",
-                             photo: "product-350",
-                             time: .online,
-                             type: .mobile,
-                             age: .kids,
-                             subCourseArray: subCourseArray4)
-        let course5 = Course(name: "Web-design",
-                             photo: "product-350",
-                             time: .dayTime,
-                             type: .mobile,
-                             age: .adult,
-                             subCourseArray: subCourseArray5)
-        coursesArray.append(course1)
-        coursesArray.append(course2)
-        coursesArray.append(course3)
-        coursesArray.append(course4)
-        coursesArray.append(course5)
+        coursesArray[0].subCourseArray = subCourseArray1
+        coursesArray[1].subCourseArray = subCourseArray2
+        coursesArray[2].subCourseArray = subCourseArray3
+        coursesArray[3].subCourseArray = subCourseArray4
+        coursesArray[4].subCourseArray = subCourseArray5
         
-    }
-    
-    func checkEmptyFields() -> Bool {
-        
-        var isEmptyFields = false
-        isEmptyFields = usernameTextField.text!.isEmpty ? true : false
-        isEmptyFields = passwordTextField.text!.isEmpty ? true : false
-        showAlert(alertType: .isEmptyFields, needToShow: isEmptyFields)
-        return isEmptyFields
-        
-    }
-    
-    func showAlert(alertType: AlertType, needToShow: Bool) {
-        
-        if needToShow {
-            if alertType == .userNotFound {
-                self.presentWarningTwoActions(message: alertType.rawValue) { (result) in
-                    if result {
-                        self.createNewUser()
-                    }
-                }
-            }
-            else {
-                self.presentWarningOneAction(message: alertType.rawValue)
-            }
-        }
-        
-    }
-    
-    func createNewUser() {
-        
-        let vc = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-        vc.delegate = self
-        vc.update(currUser: newUser(), newUser: true)
-        self.navigationController?.pushViewController(vc, animated: true)
-        
-    }
-    
-    func newUser() -> User {
-        
-        let newUser = User(name: "",
-                           password: "",
-                           photo: "default-photo-1",
-                           surname: "",
-                           age: 0,
-                           city: "",
-                           birthday: "",
-                           email: "",
-                           telephone: "")
-        userArray.append(newUser)
-        return newUser
-        
-    }
-    
-    func userValidation() -> Bool {
-        
-        var userFound = false
-        var wrongPassword = false
-        for user in userArray {
-            if user.name == usernameTextField.text! {
-                userFound = true
-                wrongPassword = user.password != passwordTextField.text! ? true : false
-                showAlert(alertType: .wrongPass, needToShow: wrongPassword)
-                currentUser = user
-                return wrongPassword ? false : true
-            }
-        }
-        showAlert(alertType: .userNotFound,
-                  needToShow: userFound ? false : true)
-        return userFound
-        
-    }
-    
-    @IBAction func loginButtonPressed(_ sender: Any) {
-        
-        if !checkEmptyFields() {
-            if userValidation() {
-                let vc = storyboard?.instantiateViewController(withIdentifier: "LessonListViewController") as! LessonListViewController
-                vc.update(currentArray: coursesArray, currUser: currentUser ?? nil)
-                self.navigationController?.pushViewController(vc, animated: true)
-            }
-        }
-        
-    }
-}
-
-extension LoginScreenViewController: ProfileViewControllerDelegate {
-    func saveUser(user: User) {
-        
-    }
-    
-    
-    func saveNewUser(newUser: User) {
-        userArray.append(newUser)
     }
     
 }

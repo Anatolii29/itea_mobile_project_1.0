@@ -26,6 +26,8 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var programButton: UIButton!
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var aboutTextView: UITextView!
+    @IBOutlet weak var aboutLabel: UILabel!
+    @IBOutlet weak var afterCourseLabel: UILabel!
     
     var currentSubCourse: SubCourse?
     var currentUser: User?
@@ -36,7 +38,30 @@ class DetailViewController: UIViewController {
         
         super.viewDidLoad()
         fillData()
+        editUIDesign()
+        
+    }
+    
+    func editUIDesign() {
+        
+        let designManager = DesignManager()
         signInButton.setTitle(isCourseCompleted ? "Complete the course" : "Sign in on course", for: .normal)
+        designManager.editButton(button: backButton)
+        designManager.editButton(button: programButton)
+        designManager.editButton(button: signInButton)
+        programButton.backgroundColor = designManager.getMainBackgroundColor()
+        signInButton.backgroundColor = designManager.getMainBackgroundColor()
+        self.view.backgroundColor = designManager.getBackgroundColor()
+        aboutView.backgroundColor = .white
+        afterCourseView.backgroundColor = .white
+        buttonsView.backgroundColor = .white
+        afterCourseLabel.backgroundColor = designManager.getMainBackgroundColor()
+        aboutLabel.backgroundColor = designManager.getMainBackgroundColor()
+        titleLabel.text = currentSubCourse?.name
+        
+        aboutTextView.isEditable = false
+        afterCourseTextView.isEditable = false
+        
     }
     
     func update(subCourse: SubCourse?, currUser: User?) {

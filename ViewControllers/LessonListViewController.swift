@@ -36,6 +36,8 @@ class LessonListViewController: UIViewController {
         lessonCollectionView.dataSource = self
         searchBar.delegate = self
         
+        editUIDesign()
+        
     }
     
     func update(currentArray: [Course]?, currUser: User?) {
@@ -44,10 +46,19 @@ class LessonListViewController: UIViewController {
         currentUser  = currUser
     }
     
+    func editUIDesign() {
+
+        let designManager = DesignManager()
+        designManager.editButton(button: myProfileButton)
+        designManager.editButton(button: filterButton)
+        self.view.backgroundColor = designManager.getBackgroundColor()
+        lessonCollectionView.backgroundColor = designManager.getBackgroundColor()
+        
+    }
+    
     @IBAction func myProfileButtonPressed(_ sender: Any) {
         
         let vc = storyboard?.instantiateViewController(withIdentifier: "ProfileViewController") as! ProfileViewController
-//        vc.delegate = self
         vc.update(currUser: currentUser, newUser: false)
         self.navigationController?.pushViewController(vc, animated: true)
         
@@ -75,8 +86,11 @@ extension LessonListViewController: UICollectionViewDelegate, UICollectionViewDa
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let item = lessonCollectionView.dequeueReusableCell(withReuseIdentifier: "LessonListCollectionViewCell", for: indexPath) as! LessonListCollectionViewCell
+        item.layer.cornerRadius = DesignManager().getCorenrRadiusForTableView()
+        item.layer.backgroundColor =
+        DesignManager().getBackgroundColorForCourse(index: indexPath.row)
         let currentCourse = isFilter || isSearch ? filterSearchCourseArray[indexPath.row] : coursesArray[indexPath.row]
-        item.update(currentCourse: currentCourse, index: indexPath.row)
+        item.update(currentCourse: currentCourse)
         return item
         
     }
@@ -85,8 +99,9 @@ extension LessonListViewController: UICollectionViewDelegate, UICollectionViewDa
     
         let vc = storyboard?.instantiateViewController(withIdentifier: "LessonTableViewController") as! LessonTableViewController
         vc.courseTitle = coursesArray[indexPath.row].name
-        vc.update(subCourseArray: coursesArray[indexPath.row].subCourseArray ?? [],
-                  currUser: currentUser ?? nil)
+        let subCourseArr = isFilter || isSearch ? filterSearchCourseArray[indexPath.row].subCourseArray : coursesArray[indexPath.row].subCourseArray
+        vc.update(subCourseArray: subCourseArr,
+                  currUser: currentUser ?? nil, course: coursesArray[indexPath.row], courseIndex: indexPath.row)
         self.navigationController?.pushViewController(vc, animated: true)
   
     }

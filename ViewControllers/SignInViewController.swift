@@ -16,7 +16,7 @@ enum Location {
     
 }
 
-class SignInViewController: UIViewController {
+class SignInViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var courseNameLabel: UILabel!
@@ -34,7 +34,7 @@ class SignInViewController: UIViewController {
     @IBOutlet weak var rightBankInsideView: UIView!
     @IBOutlet weak var policyOutsideView: UIView!
     @IBOutlet weak var policyInsideView: UIView!
-    
+   
     var currentSubCourse: SubCourse?
     var currentUser: User?
     
@@ -46,6 +46,33 @@ class SignInViewController: UIViewController {
         
         fillData()
         cornerRadius()
+        editUIDesign()
+        
+        nameTextField.delegate = self
+        surnameTextField.delegate = self
+        emailtextField.delegate = self
+        telephoneTextField.delegate = self
+        
+        self.hideKeyboardWhenTappedAround()
+        
+    }
+    
+    func editUIDesign() {
+        
+        let designManager = DesignManager()
+        designManager.editButton(button: backButton)
+        self.view.backgroundColor = designManager.getBackgroundColor()
+        signInView.backgroundColor = .white
+        courseNameLabel.text = currentSubCourse?.name
+        locationView.layer.cornerRadius  = designManager.getCorenrRadiusForButtons()
+        commentTextView.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        signInButton.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        courseNameLabel.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        
+        nameTextField.isEnabled = false
+        surnameTextField.isEnabled = false
+        emailtextField.isEnabled = false
+        telephoneTextField.isEnabled = false
         
     }
     

@@ -17,13 +17,13 @@ class Course: NSObject {
     var age: CourseAge
     var subCourseArray: [SubCourse]?
     
-    init(name: String, photo: String, time: CourseTime, type: CourseType, age: CourseAge, subCourseArray: [SubCourse]) {
+    init(name: String, photo: String, time: CourseTime, type: CourseType, age: CourseAge) {
         self.name = name
         self.photo = photo
         self.time = time
         self.type = type
         self.age = age
-        self.subCourseArray = subCourseArray
+//        self.subCourseArray = subCourseArray
     }
 
 }

@@ -16,6 +16,7 @@ protocol FilterViewControllerDelegate {
 
 class FilterViewController: UIViewController {
     
+    @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var courseTimeView: UIView!
     @IBOutlet weak var courseTypeView: UIView!
     @IBOutlet weak var courseAgeView: UIView!
@@ -42,6 +43,7 @@ class FilterViewController: UIViewController {
     @IBOutlet weak var outsideViewKids: UIView!
     @IBOutlet weak var insideViewKids: UIView!
     
+    
     var arrayOffsideView: [UIView] = []
     var dateInsideViewDictionary: [CourseTime: UIView] = [:]
     var typeInsideViewDictionary: [CourseType: UIView] = [:]
@@ -55,6 +57,8 @@ class FilterViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        editUIDesign()
         
         arrayOffsideView = [outsideViewDayTime,
                             outsideViewEveningTime,
@@ -79,6 +83,17 @@ class FilterViewController: UIViewController {
         ageInsideViewDictionary = [.adult: insideViewAdults,
                                    .kids: insideViewKids]
         cornerRadius()
+        
+    }
+    
+    func editUIDesign() {
+        
+        let designManager = DesignManager()
+        designManager.editButton(button: backButton)
+        self.view.backgroundColor = designManager.getBackgroundColor()
+        courseTimeView.backgroundColor = designManager.getColorForView()
+        courseTypeView.backgroundColor = designManager.getColorForView()
+        courseAgeView.backgroundColor = designManager.getColorForView()
         
     }
     

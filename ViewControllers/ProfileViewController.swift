@@ -14,7 +14,7 @@ protocol ProfileViewControllerDelegate {
     
 }
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, UITextFieldDelegate {
     
     
     @IBOutlet weak var profileView: UIView!
@@ -32,7 +32,12 @@ class ProfileViewController: UIViewController {
     @IBOutlet weak var userBirtdayTextField: UITextField!
     @IBOutlet weak var userEmailTextField: UITextField!
     @IBOutlet weak var userTelephoneTextField: UITextField!
-    @IBOutlet weak var userCurrentCourseTextField: UITextField!
+    @IBOutlet weak var ageLabel: UILabel!
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var birthdayLabel: UILabel!
+    @IBOutlet weak var emailLabel: UILabel!
+    @IBOutlet weak var telephoneLabel: UILabel!
+    
     
     var currentUser: User?
     var arrayTextFiled: [UITextField] = []
@@ -43,8 +48,38 @@ class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        editUIDesign()
         fillData()
         editFields()
+        
+        userNameTextField.delegate = self
+        userSurnameTextField.delegate = self
+        userAgeTextField.delegate = self
+        userCityTextField.delegate = self
+        userBirtdayTextField.delegate = self
+        userPhotoTextField.delegate = self
+        userEmailTextField.delegate = self
+        userTelephoneTextField.delegate = self
+        
+        self.hideKeyboardWhenTappedAround()
+        
+    }
+    
+    func editUIDesign() {
+        
+        let designManager = DesignManager()
+        designManager.editButton(button: backButton)
+        self.view.backgroundColor = designManager.getBackgroundColor()
+        profileView.layer.cornerRadius = designManager.getCorenrRadiusForTableView()
+        ageLabel.layer.cornerRadius = designManager.getCorenrRadiusForTableView()
+        cityLabel.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        birthdayLabel.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        emailLabel.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        telephoneLabel.layer.cornerRadius = designManager.getCorenrRadiusForButtons()
+        designManager.editButton(button: lastCoursesButton)
+        lastCoursesButton.backgroundColor = designManager.getMainBackgroundColor()
+        designManager.editButton(button: editButton)
+        
         
     }
     
@@ -70,7 +105,7 @@ class ProfileViewController: UIViewController {
         
         for field in arrayTextFiled {
             field.isEnabled = isActive
-            field.backgroundColor = isActive ? UIColor.green : UIColor.red
+            field.backgroundColor = isActive ? UIColor.white : DesignManager().getColorForTextFieldNew()
         }
         editButton.setTitle(isActive ? "save" : "edit", for: .normal)
         
@@ -100,18 +135,17 @@ class ProfileViewController: UIViewController {
         arrayTextFiled.append(userBirtdayTextField)
         arrayTextFiled.append(userEmailTextField)
         arrayTextFiled.append(userTelephoneTextField)
-        arrayTextFiled.append(userCurrentCourseTextField)
+        
     }
     
     func checkEmptyFields() -> Bool {
         
-        var isEmptyFields = false
-        isEmptyFields = userNameTextField.text!.isEmpty ? true : false
-        isEmptyFields = passwordTextField.text!.isEmpty ? true : false
-        if isEmptyFields {
+        let fieldsArray = [userNameTextField, passwordTextField]
+        let emptyField = EmptyFieldsCheck().isEmptyFields(fieldArray: fieldsArray)
+        if emptyField {
             self.presentWarningOneAction(message: AlertType.isEmptyFields.rawValue)
         }
-        return isEmptyFields
+        return emptyField
         
     }
         
@@ -120,7 +154,7 @@ class ProfileViewController: UIViewController {
         currentUser?.name = userNameTextField.text ?? ""
         currentUser?.surname = userSurnameTextField.text ?? ""
         currentUser?.password = passwordTextField.text ?? ""
-        currentUser?.age = Int(userAgeTextField.text ?? "0")!
+        currentUser?.age = Int(userAgeTextField.text ?? "0") ?? 0
         currentUser?.city = userCityTextField.text ?? ""
         currentUser?.birthday = userBirtdayTextField.text ?? ""
         currentUser?.email = userEmailTextField.text ?? ""
